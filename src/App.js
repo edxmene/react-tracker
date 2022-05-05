@@ -25,10 +25,31 @@ const tasks_ = [
 
 function App() {
   const [tasks, setTasks] = useState(tasks_);
+
+  const deleteTask = (id) => {
+    setTasks(tasks.filter((task) => task.id !== id));
+  };
+
+  const toggleReminder = (id) => {
+    setTasks(
+      tasks.map((task) =>
+        task.id === id ? { ...task, reminder: !task.reminder } : task
+      )
+    );
+    console.log(tasks);
+  };
   return (
     <div className="container">
       <Header />
-      <Tasks tasks={tasks} />
+      {tasks.length > 0 ? (
+        <Tasks
+          tasks={tasks}
+          deleteTask={deleteTask}
+          onToggle={toggleReminder}
+        />
+      ) : (
+        "No tasks to show"
+      )}
     </div>
   );
 }
